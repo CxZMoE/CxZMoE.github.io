@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
+    <!--<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0" />-->
+    <title>cxz之家</title>
+    <!-- <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script> -->
+
+    <link rel="stylesheet" href="/css/cxzblog.css">
+    <link rel="stylesheet" href="/css/APlayer.min.css">
+    <script type="text/javascript" src="/js/jquery-3.5.0.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.cookie.js"></script>
+    <script type="text/javascript" src="/js/marked.min.js"></script>
+    <script type="text/javascript" src="/js/APlayer.min.js"></script>
+
+
+</head>
+
+<body>
+    <progress id="loadProgress" class="progressBar" value="30" max="100"></progress>
+
+    <div class="main-wrapper">
+
+        <div class="top-nav-bar">
+            <ul>
+                <li class="nav-item left-space"><a href="/home.html">首页</a></li>
+                <li class="nav-item left-space"><a href="/list.html">文章</a></li>
+                <li class="nav-item left-space" style="display: none;"><a href="/about.html">关于</a></li>
+                <!--<li class="nav-item right">CXZ之家</li>-->
+
+                <span id="searcher">
+                    <input id="searchBar" class="nav-item right search-bar" type="search" placeholder="" maxlength="50" autocomplete="false">
+                </span>
+
+
+            </ul>
+
+        </div>
+        <div class="route pan">
+            <span><a href="/index.html"><small>首页>></small></a></span>
+        </div>
+
+
+
+        <div id="content" class="content-wrapper">
+            <div class="left-nav top-space-big">
+                <p class="nav-title">导航</p>
+                <div class="seperator-bottom-space"></div>
+                <ul>
+                    <li class="left-nav-item  top-space"><a href="/home.html">首页</a></li>
+                    <li class="left-nav-item  top-space"><a href="/list.html">文章</a></li>
+                    <li class="left-nav-item  top-space" style="display: none;"><a href="/about.html">关于</a></li>
+                </ul>
+
+                <p class="nav-title">友情链接</p>
+                <div class="seperator-bottom-space"></div>
+                <ul>
+                    <li class="left-nav-item  top-space"><a href="https://www.bilibili.com/">哔哩哔哩弹幕网</a></li>
+                </ul>
+            </div>
+            <div class="right-content">
+                <ul id="box-list" class="box-list">
+
+                </ul>
+            </div>
+        </div>
+
+
+        <div class="clear"></div>
+        <div id="aplayer" class="" style="color: #666;"></div>
+        <div class="footer">
+            <p>© CxZMoE <span style="font-size: 8px;">Powered by Golang</span> </p>
+        </div>
+
+
+    </div>
+</body>
+<script type="text/javascript" src="/js/cxzblog.js"></script>
+<script type="text/javascript" src="/js/list.js"></script>
+<script type="text/javascript" src="/js/events.js"></script>
+<script type="text/javascript" src="/js/player.js"></script>
+
+<script>
+    //console.log($.cookie("MOE-FORWARD"))
+
+
+
+    switch ($.cookie("MOE-FORWARD")) {
+        case 'INDEX':
+            // text是获取到的数据
+            GetPage("/static/home.html", function(text, loadFunc, pageName) {
+                //console.log(pageName)
+                LoadPage(text, undefined, "index.html");
+                GetNewArticles()
+                PushHisState("home", '/index.html')
+            });
+            BindTopNavEvents();
+            break;
+        case 'HOME':
+            // text是获取到的数据
+            GetPage("home.html", function(text, loadFunc, pageName) {
+                //console.log(pageName)
+                LoadPage(text, undefined, "index.html");
+                GetNewArticles()
+                PushHisState("home", '/index.html')
+            });
+            BindTopNavEvents();
+            break;
+        case 'LIST':
+            GetPage('list.html', LoadPage)
+            GetArticles()
+            PushHisState("list", '/list.html')
+            break;
+        case 'ARTICLE':
+            var file = $.cookie("MOE-REQ-ARTICLE")
+                //console.log(file)
+            file = file.replace(' ', '+')
+            file = decodeURIComponent(escape(window.atob(file)))
+                //console.log(file)
+                //GetPage("article.html", LoadPage)
+            GetArticle(file)
+            PushHisState("article", '/articles/' + file)
+            break;
+        case 'ABOUT':
+            break;
+        default:
+            break;
+    }
+    //GetArticles()
+</script>
+
+</html>
