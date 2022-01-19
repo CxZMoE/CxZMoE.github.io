@@ -86,48 +86,59 @@
 <script>
 
     console.log("获取文章列表")
-    
-    switch ($.cookie("MOE-FORWARD")) {
-        case 'INDEX':
-            // text是获取到的数据
-            GetPage("home.html", function (text, loadFunc, pageName) {
-                //console.log(pageName)
-                LoadPage(text, undefined, "index.html");
-                GetNewArticles()
-                PushHisState("home", '/index.html')
-            });
-            BindTopNavEvents();
-            break;
-        case 'HOME':
-            // text是获取到的数据
-            GetPage("home.html", function (text, loadFunc, pageName) {
-                //console.log(pageName)
-                LoadPage(text, undefined, "index.html");
-                GetNewArticles()
-                PushHisState("home", '/index.html')
-            });
-            BindTopNavEvents();
-            break;
-        case 'LIST':
-            GetPage('list.html', LoadPage)
-            GetArticles()
-            PushHisState("list", '/list.html')
-            break;
-        case 'ARTICLE':
-            var file = $.cookie("MOE-REQ-ARTICLE")
-            //console.log(file)
-            file = file.replace(' ', '+')
-            file = decodeURIComponent(escape(window.atob(file)))
-            //console.log(file)
-            //GetPage("article.html", LoadPage)
-            GetArticle(file)
-            PushHisState("article", '/articles/' + file)
-            break;
-        case 'ABOUT':
-            break;
-        default:
-            break;
+    $.cookie("MOE-FORWARD", "INDEX")
+    if ($.cookie("MOE-FORWARD")) {
+        GetPage("home.html", function (text, loadFunc, pageName) {
+            //console.log(pageName)
+            LoadPage(text, undefined, "index.html");
+            GetNewArticles()
+            PushHisState("home", '/index.html')
+        });
+        BindTopNavEvents();
+    } else {
+        switch ($.cookie("MOE-FORWARD")) {
+            case 'INDEX':
+                // text是获取到的数据
+                GetPage("home.html", function (text, loadFunc, pageName) {
+                    //console.log(pageName)
+                    LoadPage(text, undefined, "index.html");
+                    GetNewArticles()
+                    PushHisState("home", '/index.html')
+                });
+                BindTopNavEvents();
+                break;
+            case 'HOME':
+                // text是获取到的数据
+                GetPage("home.html", function (text, loadFunc, pageName) {
+                    //console.log(pageName)
+                    LoadPage(text, undefined, "index.html");
+                    GetNewArticles()
+                    PushHisState("home", '/index.html')
+                });
+                BindTopNavEvents();
+                break;
+            case 'LIST':
+                GetPage('list.html', LoadPage)
+                GetArticles()
+                PushHisState("list", '/list.html')
+                break;
+            case 'ARTICLE':
+                var file = $.cookie("MOE-REQ-ARTICLE")
+                //console.log(file)
+                file = file.replace(' ', '+')
+                file = decodeURIComponent(escape(window.atob(file)))
+                //console.log(file)
+                //GetPage("article.html", LoadPage)
+                GetArticle(file)
+                PushHisState("article", '/articles/' + file)
+                break;
+            case 'ABOUT':
+                break;
+            default:
+                break;
+        }
     }
+
     //GetArticles()
 </script>
 
