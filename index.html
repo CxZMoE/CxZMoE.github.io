@@ -31,7 +31,8 @@
                 <!--<li class="nav-item right">CXZ之家</li>-->
 
                 <span id="searcher">
-                    <input id="searchBar" class="nav-item right search-bar" type="search" placeholder="" maxlength="50" autocomplete="false">
+                    <input id="searchBar" class="nav-item right search-bar" type="search" placeholder="" maxlength="50"
+                        autocomplete="false">
                 </span>
 
 
@@ -83,14 +84,13 @@
 <script type="text/javascript" src="static/js/player.js"></script>
 
 <script>
-    //console.log($.cookie("MOE-FORWARD"))
 
-
-
+    console.log("获取文章列表")
+    
     switch ($.cookie("MOE-FORWARD")) {
         case 'INDEX':
             // text是获取到的数据
-            GetPage("/static/home.html", function(text, loadFunc, pageName) {
+            GetPage("home.html", function (text, loadFunc, pageName) {
                 //console.log(pageName)
                 LoadPage(text, undefined, "index.html");
                 GetNewArticles()
@@ -100,7 +100,7 @@
             break;
         case 'HOME':
             // text是获取到的数据
-            GetPage("home.html", function(text, loadFunc, pageName) {
+            GetPage("home.html", function (text, loadFunc, pageName) {
                 //console.log(pageName)
                 LoadPage(text, undefined, "index.html");
                 GetNewArticles()
@@ -115,11 +115,11 @@
             break;
         case 'ARTICLE':
             var file = $.cookie("MOE-REQ-ARTICLE")
-                //console.log(file)
+            //console.log(file)
             file = file.replace(' ', '+')
             file = decodeURIComponent(escape(window.atob(file)))
-                //console.log(file)
-                //GetPage("article.html", LoadPage)
+            //console.log(file)
+            //GetPage("article.html", LoadPage)
             GetArticle(file)
             PushHisState("article", '/articles/' + file)
             break;

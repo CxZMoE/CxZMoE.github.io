@@ -3,7 +3,7 @@ function GetNewArticles() {
     SetProgressBarVisibility(bar, "visible")
     var req = new XMLHttpRequest();
     // 获取最多三个文章
-    req.open('GET', "/list/recent?lines=3&mode=restrict", true);
+    req.open('GET', "/db/articles.json", true);
     req.send();
     req.onreadystatechange = function() {
         if (req.readyState == 0)
@@ -34,7 +34,7 @@ function GetNewArticles() {
                 newBoxContent.className = "box-content"
 
                 var newTitleLink = document.createElement("a")
-                newTitleLink.href = "/articles/" + element.title
+                newTitleLink.href = "/static/articles/" + element.title
                 newTitleLink.innerHTML = element.title
 
 
@@ -45,7 +45,7 @@ function GetNewArticles() {
                 newModDate.style.marginRight = "5px"
                 newModDate.innerHTML = element.modDate
 
-                newBoxContent.innerHTML = marked(element.content)
+                newBoxContent.innerHTML = marked(element.description)
                 newBox.appendChild(newBoxTitle).appendChild(newTitleLink)
                 newBox.appendChild(newBoxTitle).appendChild(newModDate)
 
@@ -56,7 +56,7 @@ function GetNewArticles() {
                 newTitleLink.addEventListener('click', function(e) {
                     e.preventDefault()
                     GetArticle(element.title)
-                    PushHisState(element.title.split("." [0]), "/articles/" + element.title) // 历史
+                    PushHisState(element.title.split("." [0]), "/static/articles/" + element.title) // 历史
                 })
             });
             SetProgressBar(bar, 100); // 进度条控制
@@ -74,7 +74,7 @@ function GetArticles() {
     SetProgressBarVisibility(bar, "visible")
     var req = new XMLHttpRequest();
     // 获取最多三个文章
-    req.open('GET', "/list/recent?mode=none", true);
+    req.open('GET', "/db/articles.json", true);
     req.send();
     req.onreadystatechange = function() {
         if (req.readyState == 0)
@@ -114,10 +114,10 @@ function GetArticles() {
                 newBoxContent.className = "box-content"
 
                 var newTitleLink = document.createElement("a")
-                newTitleLink.href = "/articles/" + element.title
+                newTitleLink.href = "/static/articles/" + element.title
                 newTitleLink.innerHTML = element.title
 
-                newBoxContent.innerHTML = marked(element.content)
+                newBoxContent.innerHTML = marked(element.description)
                 newBox.appendChild(newBoxTitle).appendChild(newTitleLink)
                 newBox.appendChild(newBoxContent)
                 newLi.appendChild(newBox)
@@ -134,7 +134,7 @@ function GetArticles() {
                 newTitleLink.addEventListener('click', function(e) {
                     e.preventDefault()
                     GetArticle(element.title)
-                    PushHisState(element.title.split("." [0]), "/articles/" + element.title) // 历史
+                    PushHisState(element.title.split("." [0]), "/static/articles/" + element.title) // 历史
                 })
             });
             SetProgressBar(bar, 100); // 进度条控制
@@ -153,7 +153,7 @@ function GetArticle(name) {
     var bar = document.getElementById("loadProgress");
     SetProgressBarVisibility(bar, "visible");
 
-    req.open("GET", "/info/article/" + name, true)
+    req.open("GET", "/static/articles/" + name, true)
     req.send()
 
     req.onreadystatechange = function() {
@@ -168,8 +168,11 @@ function GetArticle(name) {
             SetProgressBar(bar, 75) // 进度条控制
 
         if (req.status == 200 && req.readyState == 4) {
-            var data = JSON.parse(req.responseText)
-                //console.log(data)
+            var data = {
+                title: name,
+                content: req.responseText
+            };
+            console.log(data)
             LoadArticlePage(data)
             SetProgressBar(bar, 100); // 进度条控制
             setTimeout(function() {
@@ -196,7 +199,7 @@ function LoadArticlePage(data) {
     var req = new XMLHttpRequest()
     var html = marked(content)
 
-    req.open("GET", "/static/article.html")
+    req.open("GET", "/article.html")
     req.send()
     req.onreadystatechange = function() {
         if (req.status == 200 && req.readyState == 4) {
@@ -217,7 +220,7 @@ function LoadArticlePage(data) {
 // 从服务器 Get 页面
 function GetPage(pageName, loadFunc) {
     var req = new XMLHttpRequest();
-    req.open("GET", "/static/" + pageName, true);
+    req.open("GET", "/" + pageName, true);
     //console.log("Get: " + pageName)
     req.send();
 

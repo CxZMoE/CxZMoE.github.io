@@ -8,18 +8,18 @@ const ap = new APlayer({
     audio: [{
             name: '手纸 ~拝啓 绪五の君へ~',
             artist: 'Naomile',
-            url: '/audio/手纸 ~拝啓 绪五の君へ~.mp3',
+            url: '/static/audio/手纸 ~拝啓 绪五の君へ~.mp3',
             cover: defaultCover
         }, {
             name: 'fuwa.mp3',
             artist: '軽音楽部',
-            url: '/audio/fuwa.mp3',
+            url: '/static/audio/fuwa.mp3',
             cover: defaultCover
         },
         {
             name: 'ballpen.mp3',
             artist: '軽音楽部',
-            url: '/audio/ballpen.mp3',
+            url: '/static/audio/ballpen.mp3',
             cover: defaultCover
         },
     ]
